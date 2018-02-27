@@ -1,0 +1,8 @@
+{
+    "phonebook": [
+        { "name": "ayman", "phone": "12-123-1234", "email": "ayman@anything.com" },
+        { "name": "ayman2", "phone": "12-123-1234", "email": "ayman2@anything.com" },
+        { "name": "ayman3", "phone": "12-123-1234", "email": "ayman3@anything.com" },
+        { "name": "ayman4", "phone": "12-123-1234", "email": "ayman4@anything.com" }
+    ]
+}
