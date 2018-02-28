@@ -49,6 +49,13 @@ $('#contactInfo').submit(function(event) {
 
 });
 
+$('#searchForm').submit(function(event) {
+    event.preventDefault();
+    var query = $(this).serializeArray();
+    console.log(query[0].value);
+    book.search(query[0].value)
+});
+
 
 var phonebook = function() {
     console.log('from phonebook')
@@ -60,7 +67,7 @@ phonebook.prototype = {
         post("phonebook", contactInfo, renderContactsList);
     },
     remove: function(index) { console.log('remove  contact', index), this.contactsList },
-    search: function(query) { console.log('search'), this.contactsList },
+    search: function(query) { console.log('search', query), this.contactsList },
     list: function(contactsPerPage, page) { console.log('list contacts'), this.contactsList }
 }
 phonebook.prototype.constructor = phonebook;
