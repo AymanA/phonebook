@@ -66,8 +66,16 @@ phonebook.prototype = {
         console.log('add new contact', this.contactsList);
         post("phonebook", contactInfo, renderContactsList);
     },
-    remove: function(index) { console.log('remove  contact', index), this.contactsList },
-    search: function(query) { console.log('search', query), this.contactsList },
-    list: function(contactsPerPage, page) { console.log('list contacts'), this.contactsList }
+    remove: function(index) {
+        console.log('remove  contact', index);
+    },
+    search: function(query) {
+        console.log('search', query);
+        queryString = '?name=' + query
+        get('phonebook')
+    },
+    list: function(contactsPerPage, page) {
+        console.log('list contacts');
+    }
 }
 phonebook.prototype.constructor = phonebook;
