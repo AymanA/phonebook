@@ -1,3 +1,5 @@
+var book;
+
 function fetchBooks() {
     // get('phonebook').then(response => {
     //     // this.contacts = response;
@@ -6,35 +8,59 @@ function fetchBooks() {
     //     console.log('Failed', error);
     // });
 
-
-    get('phonebook', renderContactsList);
+    // get('phonebook', renderContactsList);
+    book = new phonebook();
+    console.log(book, 'book');
 }
 
 
 function renderContactsList(response) {
     console.log(response);
-
-    for (var i = 0; i < response.length; i++) {
-
-        $('#contactsList').append('<tr> <td>' + response[i].name + '</td> <td>' + response[i].phone +
-            '</td><td>' + response[i].email + '<td> <input type="button"  value="Remove" class="btn btn-danger" >' +
-            '</tr>'); //onclick="phonebook.removeContact()"
+    if (Array.isArray(response)) {
+        for (var i = 0; i < response.length; i++) {
+            this.renderRow(response[i]);
+        }
+    } else {
+        this.renderRow(response);
     }
-
 }
 
-$('#contactInputForm').submit(function(event) {
+
+function renderRow(row) {
+    $('#contactsList').append('<tr> <td>' + row.name + '</td> <td>' + row.phone +
+        '</td><td>' + row.email + '<td> <input type="button"  value="Remove" class="btn btn-danger" onclick="book.remove(' + row.id + ')" >' +
+        '</tr>'); //onclick="phonebook.removeContact()"
+}
+
+$('#contactInfo').submit(function(event) {
 
     event.preventDefault();
     var dataArray = $(this).serializeArray();
     console.log(dataArray);
 
-    var contact = {};
+    var contactInfo = {};
     for (var l = 0; l < dataArray.length; l++) {
-        contact[dataArray[l].name] = dataArray[l].value;
+        contactInfo[dataArray[l].name] = dataArray[l].value;
     }
 
-    console.log(contact);
+    console.log(contactInfo, book, 'add');
+    book.add(contactInfo);
+    this.reset();
 
-    post("phonebook", contact);
 });
+
+
+var phonebook = function() {
+    console.log('from phonebook')
+    var contactsList = get('phonebook', renderContactsList);
+}
+phonebook.prototype = {
+    add: function(contactInfo) {
+        console.log('add new contact', this.contactsList);
+        post("phonebook", contactInfo, renderContactsList);
+    },
+    remove: function(index) { console.log('remove  contact', index), this.contactsList },
+    search: function(query) { console.log('search'), this.contactsList },
+    list: function(contactsPerPage, page) { console.log('list contacts'), this.contactsList }
+}
+phonebook.prototype.constructor = phonebook;

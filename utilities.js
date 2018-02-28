@@ -10,7 +10,7 @@ function get(url, success_function) {
     });
 }
 
-function post(url, data) {
+function post(url, data, success_function) {
     $.ajax({
         url: base_url + url,
         type: 'POST',
@@ -19,7 +19,7 @@ function post(url, data) {
         data: JSON.stringify(data),
     }).done(function(response) {
         console.log("post done");
-        //success_function(response);
+        success_function(response);
     });
 }
 
