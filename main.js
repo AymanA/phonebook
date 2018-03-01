@@ -1,5 +1,5 @@
 var book;
-var modelEndPoint = 'phonebook';
+var modelEndPoint = 'phonebook?';
 
 function fetchBooks() {
     // get('phonebook').then(response => {
@@ -24,6 +24,11 @@ function renderContactsList(response) {
     } else {
         this.renderRow(response);
     }
+}
+
+function renderSearchResult(response) {
+    $("#contactsList").find("tr:not(:first)").remove();
+    this.renderContactsList(response);
 }
 
 
@@ -59,7 +64,7 @@ $('#searchForm').submit(function(event) {
 
 var phonebook = function() {
     console.log('from phonebook')
-    var contactsList = get('phonebook', renderContactsList);
+    var contactsList = get(modelEndPoint, renderContactsList);
 }
 phonebook.prototype = {
     add: function(contactInfo) {
@@ -82,9 +87,10 @@ phonebook.prototype = {
         });
     },
     search: function(query) {
-        console.log('search', query);
-        queryString = '?name=' + query;
-        get(modelEndPoint);
+
+        queryString = '&q=' + query;
+        console.log('search', query, modelEndPoint + queryString);
+        get(modelEndPoint + queryString, renderSearchResult);
     },
     list: function(contactsPerPage, page) {
         console.log('list contacts');

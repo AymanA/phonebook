@@ -1,6 +1,6 @@
 function get(url, success_function) {
     $.ajax({
-        url: base_url + url + '?_sort=name&_order=asc',
+        url: base_url + url + '&sort=name&_order=asc',
         type: 'GET',
         dataType: 'json',
     }).done(function(response) {
