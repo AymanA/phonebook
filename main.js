@@ -1,4 +1,5 @@
 var book;
+var modelEndPoint = 'phonebook';
 
 function fetchBooks() {
     // get('phonebook').then(response => {
@@ -28,7 +29,7 @@ function renderContactsList(response) {
 
 function renderRow(row) {
     $('#contactsList').append('<tr> <td>' + row.name + '</td> <td>' + row.phone +
-        '</td><td>' + row.email + '<td> <input type="button"  value="Remove" class="btn btn-danger" onclick="book.remove(' + row.id + ')" >' +
+        '</td><td>' + row.email + '<td> <input type="button"  value="Remove" class="btn btn-danger" onclick="book.remove(' + row.id + ', this)" >' +
         '</tr>'); //onclick="phonebook.removeContact()"
 }
 
@@ -56,7 +57,6 @@ $('#searchForm').submit(function(event) {
     book.search(query[0].value)
 });
 
-
 var phonebook = function() {
     console.log('from phonebook')
     var contactsList = get('phonebook', renderContactsList);
@@ -64,15 +64,27 @@ var phonebook = function() {
 phonebook.prototype = {
     add: function(contactInfo) {
         console.log('add new contact', this.contactsList);
-        post("phonebook", contactInfo, renderContactsList);
+        var validationResult = formValidation(contactInfo);
+
+        if (validationResult.length > 1) {
+            message = validationResult;
+        } else {
+            post(modelEndPoint, contactInfo, renderContactsList);
+            message = 'Account Add Successfully';
+        }
+        alert(message);
+
     },
-    remove: function(index) {
-        console.log('remove  contact', index);
+    remove: function(index, el) {
+        console.log('remove  contact', index, el);
+        deleteContact(modelEndPoint, index, function() {
+            el.closest('tr').remove();
+        });
     },
     search: function(query) {
         console.log('search', query);
-        queryString = '?name=' + query
-        get('phonebook')
+        queryString = '?name=' + query;
+        get(modelEndPoint);
     },
     list: function(contactsPerPage, page) {
         console.log('list contacts');

@@ -23,9 +23,43 @@ function post(url, data, success_function) {
     });
 }
 
+function deleteContact(url, index, success_function) {
+    $.ajax({
+        url: base_url + url + '/' + index,
+        type: 'DELETE',
+        contentType: "application/json",
+        dataType: 'json',
+    }).done(function(response) {
+        console.log("delete done");
+        success_function();
+    });
+}
 
+function formValidation(form) {
+    var errorMessage = '';
+    errorMessage += validateName(form.name) ? '' : "name should be 1:100 characters, ";
+    errorMessage += validateEmail(form.email) ? '' : "Email not valid, ";
+    errorMessage += validatePhone(form.phone) ? '' : "phone not valid";
+    return errorMessage;
+}
 
+function validateName(name) {
+    if (!name || name.length === 0 || name.length > 100) {
+        return false;
+    }
+    return true;
+}
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function validatePhone(phone) {
+    var re = /[0-9]{2}-[0-9]{3}-[0-9]{4}/g;
+    var isPhoneValid = re.test(phone);
+    return isPhoneValid;
+}
 
 
 // function get(route) {
