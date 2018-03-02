@@ -9,7 +9,7 @@
     <title>Phone Book</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body onload="fetchBooks()">
@@ -54,12 +54,20 @@
             <div class="col-lg-12">
                 <table class="table" id="contactsList">
                     <tr>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Action</th>
+                        <th class="contactName">Name</th>
+                        <th class="contactPhone">Phone</th>
+                        <th class="contactEmail">Email</th>
+                        <th class="contactAction">Action</th>
                     </tr>
                 </table>
+                <nav class="pull-right">
+                    <ul class="pagination">
+                        <li id="previous" class="disabled"><a aria-label="Previous">Previous</a></li>
+                        <li> <a>page <span id="currentPage">1</span></a></li>
+                        <li id="next"><a aria-label="Next">Next</a></li>
+
+                    </ul>
+                </nav>
             </div>
         </div>
 

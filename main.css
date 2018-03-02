@@ -1,0 +1,23 @@
+a {
+    cursor: pointer;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.contactName {
+    width: 20%;
+}
+
+.contactPhone {
+    width: 15%;
+}
+
+.contactEmail {
+    width: 25%
+}
+
+.contactAction {
+    width: 10%;
+}

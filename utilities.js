@@ -3,8 +3,9 @@ function get(url, success_function) {
         url: base_url + url,
         type: 'GET',
         dataType: 'json',
-    }).done(function(response) {
-        success_function(response);
+    }).done(function(response, data, request) {
+        // console.log('get', response, data, request)
+        success_function(response, request);
     }).error(function() {
 
     });

@@ -2,9 +2,13 @@
 
 var phonebook = (function() {
     var instance;
+    var pageSize;
 
-    function createInstance() {
-        var contactsList = get(modelEndPoint, renderContactsList);
+    function createInstance(pageSize) {
+        var firstPage = '?_page=1&_limit=' + pageSize;
+        var contactsList = get(modelEndPoint + firstPage, renderContactsList);
+        var oldQuery;
+
         return {
             getContactList: function() {
                 return this.contactsList;
@@ -30,20 +34,31 @@ var phonebook = (function() {
                 });
             },
             search: function(query) {
+                console.log(oldQuery, query);
+                if (oldQuery !== query) {
+                    filter = '?q=' + query + '&_page=1&_limit=' + pageSize;
+                    console.log('search', query, modelEndPoint + filter);
+                    get(modelEndPoint + filter, renderContactsList);
+                    oldQuery = query;
+                }
 
-                queryString = '?q=' + query;
-                console.log('search', query, modelEndPoint + queryString);
-                get(modelEndPoint + queryString, renderSearchResult);
             },
-            list: function(contactsPerPage, page) {
-                console.log('list contacts');
+            list: function(contactsPerPage, page, currentFilter) {
+                var pageInfo;
+                if (!currentFilter) {
+                    pageInfo = '?_page=' + page + '&_limit=' + contactsPerPage;
+                } else {
+                    pageInfo = '?q=' + currentFilter + '&_page=' + page + '&_limit=' + contactsPerPage;
+                }
+                get(modelEndPoint + pageInfo, renderContactsList);
+                console.log('list contacts', contactsPerPage, page);
             }
         };
     };
     return {
-        getInstance: function() {
+        getInstance: function(pageSize) {
             if (!instance) {
-                instance = createInstance();
+                instance = createInstance(pageSize);
             }
             return instance;
         }
@@ -80,7 +95,7 @@ var phonebook = (function() {
 
 //         queryString = '&q=' + query;
 //         console.log('search', query, modelEndPoint + queryString);
-//         get(modelEndPoint + queryString, renderSearchResult);
+//         get(modelEndPoint + queryString, renderContactsList);
 //     },
 //     list: function(contactsPerPage, page) {
 //         console.log('list contacts');
