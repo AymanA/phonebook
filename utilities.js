@@ -1,6 +1,6 @@
 function get(url, success_function) {
     $.ajax({
-        url: base_url + url + '&sort=name&_order=asc',
+        url: base_url + url,
         type: 'GET',
         dataType: 'json',
     }).done(function(response) {
@@ -61,7 +61,7 @@ function validatePhone(phone) {
     return isPhoneValid;
 }
 
-
+// in case using promises
 // function get(route) {
 //     // Return a new promise.
 //     const url = base_url + route;
