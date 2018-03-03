@@ -1,3 +1,4 @@
+// "use strict";
 // singleton phonebook
 
 var phonebook = (function() {
@@ -34,13 +35,18 @@ var phonebook = (function() {
                 });
             },
             search: function(query) {
-                console.log(oldQuery, query);
-                if (oldQuery !== query) {
-                    filter = '?q=' + query + '&_page=1&_limit=' + pageSize;
-                    console.log('search', query, modelEndPoint + filter);
-                    get(modelEndPoint + filter, renderContactsList);
-                    oldQuery = query;
+                isValidPhone = validatePhone(query);
+                var filter;
+                if (oldQuery === query) {
+                    return;
                 }
+                if (isValidPhone) {
+                    filter = '?phone=' + query + '&_page=1&_limit=' + pageSize;
+                } else {
+                    filter = query.length === 0 ? '?_page=1&_limit=' + pageSize : '?name=' + query + '&_page=1&_limit=' + pageSize;
+                }
+                get(modelEndPoint + filter, renderContactsList);
+                oldQuery = query;
 
             },
             list: function(contactsPerPage, page, currentFilter) {
