@@ -16,7 +16,6 @@ function fetchBooks() {
 
 
     book = phonebook.getInstance(pageSize);
-    console.log(book, 'book');
 }
 
 
@@ -34,10 +33,10 @@ function renderContactsList(response, request) {
             return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         });
         for (var i = 0; i < response.length; i++) {
-            this.renderRow(response[i]);
+            renderRow(response[i]);
         }
     } else {
-        this.renderRow(response);
+        renderRow(response);
     }
 }
 
@@ -52,14 +51,12 @@ function renderRow(row) {
 $('#contactInfo').submit(function(event) {
     event.preventDefault();
     var dataArray = $(this).serializeArray();
-    console.log(dataArray);
 
     var contactInfo = {};
     for (var l = 0; l < dataArray.length; l++) {
         contactInfo[dataArray[l].name] = dataArray[l].value;
     }
 
-    console.log(contactInfo, book, 'add');
     book.add(contactInfo, function() {
         this.reset();
     }.bind(this));

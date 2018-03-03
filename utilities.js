@@ -1,10 +1,11 @@
+var base_url;
+
 function get(url, success_function) {
     $.ajax({
         url: base_url + url,
         type: 'GET',
         dataType: 'json',
     }).done(function(response, data, request) {
-        // console.log('get', response, data, request)
         success_function(response, request);
     }).error(function() {
 
@@ -19,7 +20,6 @@ function post(url, data, success_function) {
         dataType: 'json',
         data: JSON.stringify(data),
     }).done(function(response) {
-        console.log("post done");
         success_function(response);
     });
 }
@@ -31,7 +31,6 @@ function deleteContact(url, index, success_function) {
         contentType: "application/json",
         dataType: 'json',
     }).done(function(response) {
-        console.log("delete done");
         success_function();
     });
 }
@@ -61,6 +60,7 @@ function validatePhone(phone) {
     var isPhoneValid = re.test(phone);
     return isPhoneValid;
 }
+
 
 // in case using promises
 // function get(route) {
